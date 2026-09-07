@@ -42,7 +42,9 @@
 
             <input type="password" placeholder="Password" required v-model="password" />
           </label>
-
+          <div v-if="loginError" class="alert alert-error mb-4">
+            {{ loginError }}
+          </div>
           <!-- Login button -->
           <div class="card-actions">
             <button type="submit" class="btn btn-primary">Log in</button>
@@ -56,16 +58,23 @@
 <script setup lang="ts">
 const email = ref('');
 const password = ref('');
+const loginError = ref('');
 
 const login = async () => {
-  await $fetch('/api/auth/loging', {
-    method: 'POST',
-    body: {
-      email: email.value,
-      password: password.value,
-    },
-  });
+  loginError.value = '';
 
-  await navigateTo('/dashboard');
+  try {
+    await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: {
+        email: email.value,
+        password: password.value,
+      },
+    });
+
+    await navigateTo('/dashboard');
+  } catch (error) {
+    loginError.value = 'Invalid email or password';
+  }
 };
 </script>
