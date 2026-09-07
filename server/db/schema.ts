@@ -15,7 +15,7 @@ export const usersTable = sqliteTable('users', {
     .notNull()
     .references(() => farmsTable.id),
   email: text().notNull().unique(),
-  passwordHash: text().notNull(),
+  password: text().notNull(),
   role: text().notNull().default('user'),
   createdAt: int({ mode: 'timestamp' })
     .notNull()

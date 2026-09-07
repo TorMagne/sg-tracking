@@ -8,9 +8,9 @@ export default defineEventHandler(async (event) => {
   const [user] = await useDrizzle()
     .insert(usersTable)
     .values({
-      farmId: body.farmid,
+      farmId: body.farmId,
       email: body.email,
-      passwordHash: hashedPassword,
+      password: hashedPassword,
       role: body.role,
     })
     .returning();
