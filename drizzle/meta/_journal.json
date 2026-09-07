@@ -15,6 +15,13 @@
       "when": 1788720915299,
       "tag": "0001_woozy_liz_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788770293416,
+      "tag": "0002_parched_rocket_racer",
+      "breakpoints": true
     }
   ]
 }
