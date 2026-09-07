@@ -27,8 +27,12 @@
         <li><NuxtLink to="/dashboard">Overview</NuxtLink></li>
         <li><NuxtLink to="/dashboard/hours">Hours</NuxtLink></li>
         <li><NuxtLink to="/dashboard/projects">Projects</NuxtLink></li>
-        <li><NuxtLink to="/dashboard/users">Users</NuxtLink></li>
+        <li v-if="user?.role === 'admin'"><NuxtLink to="/dashboard/users">Users</NuxtLink></li>
       </ul>
     </nav>
   </div>
 </template>
+
+<script setup lang="ts">
+const { user } = useUserSession();
+</script>
