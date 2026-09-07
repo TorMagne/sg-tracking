@@ -4,7 +4,7 @@
       <div class="card-body">
         <h2 class="card-title mb-2">SG Tracking</h2>
 
-        <form>
+        <form @submit.prevent="login">
           <!-- Email -->
           <label class="input mb-4">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -20,7 +20,7 @@
               </g>
             </svg>
 
-            <input type="email" placeholder="Email" required />
+            <input type="email" placeholder="Email" required v-model="email" />
           </label>
 
           <!-- Password -->
@@ -40,7 +40,7 @@
               </g>
             </svg>
 
-            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Password" required v-model="password" />
           </label>
 
           <!-- Login button -->
@@ -52,3 +52,20 @@
     </div>
   </main>
 </template>
+
+<script setup lang="ts">
+const email = ref('');
+const password = ref('');
+
+const login = async () => {
+  await $fetch('/api/auth/loging', {
+    method: 'POST',
+    body: {
+      email: email.value,
+      password: password.value,
+    },
+  });
+
+  await navigateTo('/dashboard');
+};
+</script>
