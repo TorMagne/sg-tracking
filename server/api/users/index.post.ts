@@ -8,12 +8,21 @@ type CreateUserBody = {
 };
 
 export default defineEventHandler(async (event) => {
+  const { user } = await requireUserSession(event);
+
+  if (user.role !== 'admin') {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'Admin access required',
+    });
+  }
+
   const body = await readBody<CreateUserBody>(event);
 
   const email = body.email.trim().toLowerCase();
   const hashedPassword = await hashPassword(body.password);
 
-  const [user] = await useDrizzle()
+  const [createdUser] = await useDrizzle()
     .insert(usersTable)
     .values({
       farmId: body.farmId,
@@ -24,10 +33,10 @@ export default defineEventHandler(async (event) => {
     .returning();
 
   return {
-    id: user?.id,
-    farmId: user?.farmId,
-    email: user?.email,
-    role: user?.role,
-    createdAt: user?.createdAt,
+    id: createdUser?.id,
+    farmId: createdUser?.farmId,
+    email: createdUser?.email,
+    role: createdUser?.role,
+    createdAt: createdUser?.createdAt,
   };
 });
